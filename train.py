@@ -6,8 +6,8 @@ from torch.optim import Adam
 
 from data import *
 from models.model.transformer import Transformer
-from util.bleu import idx_to_word, get_bleu
-from util.epoch_timer import epoch_time
+from utils.bleu import idx_to_word, get_bleu
+from utils.epoch_timer import epoch_timer
 
 
 def count_parameters(model):
@@ -82,6 +82,7 @@ def evaluate(model, iterator, criterion):
             total_bleu = []
             for j in range(batch_size):
                 try:
+                    """这里有问题不太理解"""
                     trg_words = idx_to_word(batch.trg[j], loader.target.vocab)
                     output_words = output[j].max(dim=1)[1]
                     output_words = idx_to_word(output_words, loader.target.vocab)
@@ -110,7 +111,7 @@ def run(total_epoch, best_loss):
         train_losses.append(train_loss)
         test_losses.append(valid_loss)
         bleus.append(bleu)
-        epoch_mins, epoch_secs = epoch_time(start_time, end_time)
+        epoch_mins, epoch_secs = epoch_timer(start_time, end_time)
 
         if valid_loss < best_loss:
             best_loss = valid_loss
