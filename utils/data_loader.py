@@ -1,6 +1,6 @@
 
 from torchtext.datasets import multi30k
-from torchtext.data import Field,BucketIterator
+from torchtext.legacy.data import Field,BucketIterator
 
 class DataLoader:
     source: Field = None
